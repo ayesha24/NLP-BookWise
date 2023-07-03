@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fancy Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f1f1f1;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            margin-top: 100px;
+        }
+
+        .input-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .input-container input[type="text"] {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .input-container input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .output {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="input-container">
+            <input type="text" id="inputText" placeholder="Enter your text">
+            <input type="submit" value="Submit" onclick="submitText()">
+        </div>
+        <div class="output" id="outputText"></div>
+    </div>
+
+    <script>
+        function submitText() {
+            var inputText = document.getElementById("inputText").value;
+            var xhr = new XMLHttpRequest();
+            var url = "{{ url }}";
+            var apiEndpoint = url + "/index";
+            //var url = "http://127.0.0.1:5000/";
+    
+            xhr.open("POST", apiEndpoint, true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+    
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var response = xhr.responseText;
+                    displayOutput(response);
+                }
+            };
+    
+            var data = JSON.stringify({ "input_string": inputText });
+            xhr.send(data);
+        }
+    
+        function displayOutput(output) {
+            var outputText = document.getElementById("outputText");
+            outputText.innerText = "Response: " + output;
+        }
+    </script>
+    
+    
+    
+</body>
+</html>
